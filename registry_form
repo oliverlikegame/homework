@@ -1,0 +1,60 @@
+#include<iostream>//创建一张表输入数据保存输出包括名字，性别，年龄 ，工作工作单位(非军人)或部队番号(军人)
+#include<iomanip>
+#include<string.h>
+#define N 100
+using namespace std;
+union Work  //单位和番号只需要输入其一故为其创建一个共用体，
+{
+	char company[20];
+	long long int solider_number;
+};
+struct registry_form  //创建表的结构体
+{
+	char name[10];//属性
+	char sex;
+	int age;
+	char job[15];
+	Work work;
+	
+
+};
+int main()
+{
+	int i=0,j=1;
+	char h;
+	registry_form people[N];
+	do                                                     //循环输入数据
+	{	cout<<"please input name"<<endl;
+		cin>>people[i].name;
+		cout<<"please input sex(m/f)"<<endl;
+		cin>>people[i].sex;
+		cout<<"please input age"<<endl;
+		cin>>people[i].age;
+		cout<<"please input the kind of job"<<endl;
+		cin>>people[i].job;
+		if(strcmp(people[i].job,"solider")==0)
+		{	cout<<"please input solider number"<<endl;
+			cin>>people[i].work.solider_number;
+		}
+		else
+		{	cout<<"please input compony"<<endl;
+			cin>>people[i].work.company;
+		}
+		cout<<"DO you want continue input next ?(y/n)"<<endl;//操控循环的进行
+		cin>>h;
+
+		i++;
+		j++;
+	}while(h=='y'&&i+1<=N);
+i=0;
+cout<<setw(10)<<"name"<<setw(6)<<"sex"<<setw(6)<<"age"<<setw(20)<<"job"<<setw(40)<<"company or solider number"<<endl;//输出表的内容  注意对齐
+	while(i+1<j)
+	{
+		cout<<setw(10)<<people[i].name<<setw(6)<<people[i].sex<<setw(6)<<people[i].age<<setw(20)<<people[i].job;
+		if(strcmp(people[i].job,"solider")==0)                       //对共用体进行选择输出
+			cout<<setw(40)<<people[i].work.solider_number<<endl;
+		else
+			cout<<setw(40)<<people[i].work.company<<endl;
+		i++;
+	};
+}
