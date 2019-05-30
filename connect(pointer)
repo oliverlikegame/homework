@@ -1,0 +1,27 @@
+#include<stdio.h>//连接数组利用指针 体会使用指针操控地址   第二数组内容连接至第一数组
+#include<string.h>
+#define M 10//第一数组长度  
+#define N 10//第二数组长度
+void connect(char*p,char*l,int i)//i为数组长度(strlen),将数组地址传递从而对数组进行数据操作
+{
+	while(*l!='\0')
+	{
+		*(p+i)=*l++;//通过指针将第二数组赋值于第一数组未使用部分
+		i++;
+	}
+	*(p+i)='\0';//手动加入'\0'使字符结束
+}
+int main()
+{
+	int c,i=0;
+	char a[M],b[N];
+	scanf("%s%s",a,b);
+	c=strlen(a);
+	connect(a,b,c);
+	c=strlen(a);
+	while(i<=c)
+	{
+		printf("%c",a[i]);
+			i++;
+	}
+}
