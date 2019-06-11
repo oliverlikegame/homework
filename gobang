@@ -1,0 +1,29 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int chessboard[15][15];
+	do
+	{
+		cout<<"white please input coordinate(x,y)"
+		correctxy(x,y);//输入判断xy坐标是否合理 合理进行下棋操作
+		win();//判断五子是否一线
+		if(win()=1)
+			cout<<"game over  white win";
+		else
+			{
+				cout<<"black please input coordinate(x,y)";
+				correctxy(x,y);//输入并判断xy坐标是否合理 合理进行下棋操作
+				win();//判断五子是否一线
+				if(win()=1)
+				cout<<"game over  black win";
+
+			}
+	}
+	while(win()==0);
+}
+void correctxy()
+{
+
+
+}
