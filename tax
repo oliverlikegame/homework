@@ -1,0 +1,31 @@
+#include<iostream>//计算扣税后剩余工资
+#include<iomanip>
+using namespace std;
+double get(double a);//计算扣税后剩余工资的函数
+int main()
+{
+	int salary;
+	cout<<"please input your salary"<<endl;
+	cin>>salary;
+	cout<<"you will get:"<<get(salary)<<endl<<"tax is      :"<<salary-get(salary)<<endl;
+}
+ 
+double get(double a)          
+{
+	  if(a<=5000)
+		  return a;
+	  else if(a<=8000)
+		  return a-((a-5000)*0.03);    //税前工资-纳税金额（纳税金额=应纳税的那部分钱x税率-速算扣除数）
+	  else if(a<=17000)
+		  return a-((a-5000)*0.1-210);
+	  else if(a<=30000)
+		  return a-((a-5000)*0.2-1410);
+	  else if(a<=40000)
+		  return a-((a-5000)*0.25-2660);
+	  else if(a<=60000)
+		  return a-((a-5000)*0.3-4410);
+	  else if(a<=85000)
+		  return a-((a-5000)*0.35-7160);
+	  else 
+		  return a-((a-5000)*0.45-15160);
+}
