@@ -1,29 +1,81 @@
 #include<iostream>
 using namespace std;
+void play(char *,int,int,int);// 进行下棋操作
+int win(int,int,char*);//判断五子是否一线
+#define N 15
 int main()
 {
-	int chessboard[15][15];
+	char chessboard[N][N];
+	int player,x,y;
+	for(int i=0;i<N;i++)
+		for(int j=0;j<N;j++)
+			chessboard[i][j]=0;
 	do
 	{
-		cout<<"white please input coordinate(x,y)"
-		correctxy(x,y);//输入判断xy坐标是否合理 合理进行下棋操作
-		win();//判断五子是否一线
-		if(win()=1)
+		
+		cout<<"white please input coordinate(x,y)";
+		player=1;
+		while(1)
+		{
+			cin>>x>>y;
+			if(chessboard[x-1][y-1]==0)
+			break;
+		}
+		play(chessboard[0],player,x,y);
+		if(win(x,y,chessboard[0])==1)
 			cout<<"game over  white win";
 		else
 			{
 				cout<<"black please input coordinate(x,y)";
-				correctxy(x,y);//输入并判断xy坐标是否合理 合理进行下棋操作
-				win();//判断五子是否一线
-				if(win()=1)
+				player=0;
+				while(1)
+				{
+					cin>>x>>y;
+					if(chessboard[x-1][y-1]==0)
+					break;
+				}
+				play(chessboard[0],player,x,y);//输入并判断xy坐标是否合理 合理进行下棋操作
+				if(win(x,y,chessboard[0])==1)
 				cout<<"game over  black win";
 
 			}
 	}
-	while(win()==0);
+	while(win(x,y,chessboard[0])==0);
 }
-void correctxy()
+void play(char* cb,int player,int x,int y)
 {
+	if(player=1)//白方
+		*(*(&cb+x)+y)='*';
+	else        //黑方
+		*(*(&cb+x)+y)='@';
+	for(int i=0;i<N;i++)
+		for(int j=0;j<N;j++)
+			cout<<*(*(&cb+i)+j);
+}
 
+int win(int x, int y,char*cb1)
+{    int i, j, k;
+	const int step[4][2]={{1,0},{0,1},{1,1},{1,-1}};   
+	for(i=0;i<4;++i)
+	{   
+		const int d[2]={-1,1};      
+	int count=1;    
+	for(j=0;j<2;++j)       
+		for( k=1;k<=4;++k)
+		{           
+			int row=x+k*d[j]*step[i][0];              
 
+			int col=y+k*d[j]*step[i][1];            
+
+			if( row>=1 && row<=N &&              
+				col>=1 && col<=N &&            
+				*(cb1+x)+y == *(cb1+row)+col )                 
+				count+=1;             
+			else                   
+				break; 
+		}   
+		if(count>=5)      
+			return 1;
+	}
+return 0;
 }
