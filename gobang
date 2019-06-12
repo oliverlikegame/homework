@@ -1,59 +1,74 @@
-#include<iostream>
+#include<iostream>   
 using namespace std;
-void play(char *,int,int,int);// 进行下棋操作
-int win(int,int,char*);//判断五子是否一线
-#define N 15
+#include<iomanip>
+#define N 15									      //自定义棋盘大小
+int win(int x, int y,char(&cb1)[N][N]);			     //判断五子是否一线
+void play(char(&cb)[N][N],int,int,int);			    //进行下棋操作
+void panduan(int *p,int*l,char(&chessboard)[N][N]);//判断棋子是否可以下在选定位置  简易五子棋
 int main()
 {
 	char chessboard[N][N];
-	int player,x,y;
+	int player,x,y,j;                  
 	for(int i=0;i<N;i++)
 		for(int j=0;j<N;j++)
-			chessboard[i][j]=0;
+			chessboard[i][j]='0';
 	do
 	{
-		
-		cout<<"white please input coordinate(x,y)";
+		cout<<"WHITE please input coordinate(x,y)"<<"记住 x<="<<N<<" 还有 y<="<<N<<" 否则你可以试试^v~"<<endl;
 		player=1;
-		while(1)
-		{
-			cin>>x>>y;
-			if(chessboard[x-1][y-1]==0)
-			break;
-		}
-		play(chessboard[0],player,x,y);
-		if(win(x,y,chessboard[0])==1)
-			cout<<"game over  white win";
+		cin>>x>>y;
+		panduan(&x,&y,chessboard);                                              //判断棋盘能不能下
+		play(chessboard,player,x,y);                                            //能下就下
+		if(win(x-1,y-1,chessboard)==1)
+			cout<<"                    Gmae Over!!!!!!"<<endl<<"white win!!!!!";//白方结束提示
 		else
 			{
-				cout<<"black please input coordinate(x,y)";
+				cout<<"BLACK please input coordinate(x,y)"<<"记住 x<="<<N<<" 还有 y<="<<N<<"否则 嗯"<<endl;
 				player=0;
-				while(1)
-				{
-					cin>>x>>y;
-					if(chessboard[x-1][y-1]==0)
-					break;
-				}
-				play(chessboard[0],player,x,y);//输入并判断xy坐标是否合理 合理进行下棋操作
-				if(win(x,y,chessboard[0])==1)
-				cout<<"game over  black win";
+				panduan(&x,&y,chessboard);
+				play(chessboard,player,x,y);                                   //进行下棋操作
+				if(win(x-1,y-1,chessboard)==1)
+				cout<<"               Gmae Over!!!!!!"<<endl<<"black win!!!!!";//黑方结束提示
 
 			}
 	}
-	while(win(x,y,chessboard[0])==0);
+	while(win(x-1,y-1,chessboard)==0);
+
 }
-void play(char* cb,int player,int x,int y)
+void panduan(int *p,int*l,char(&chessboard)[N][N])//判断是否有棋子合理与否
 {
-	if(player=1)//白方
-		*(*(&cb+x)+y)='*';
-	else        //黑方
-		*(*(&cb+x)+y)='@';
+	while(1)
+		{
+								
+			if(*p>N|*l>N)
+				cout<<"你还真试试 好吧 再输一遍";
+			if(*p==-1&*l==-1)
+				cout<<"已启动对局强制结束命令,即将退出,请稍等..."<<endl<<"..........."<<endl<<"..........."<<endl<<"退出失败，请按Ctrl+c强制退出"<<endl;
+			if(chessboard[*p-1][*l-1]=='0')
+			break;
+			else cout<<"try again"<<endl;
+			cin>>*p>>*l;
+		}
+
+
+
+}
+void play(char(&cb)[N][N],int player,int x,int y)
+{
+	if(player==1)              //白方
+		cb[x-1][y-1]='*';
+	else                       //黑方
+		cb[x-1][y-1]='@';
+	int j;
 	for(int i=0;i<N;i++)
-		for(int j=0;j<N;j++)
-			cout<<*(*(&cb+i)+j);
+	{
+		for(j=0;j<N;j++)
+			cout<<setw(4)<<*(cb[i]+j);
+		cout<<endl;
+	}
 }
 
-int win(int x, int y,char*cb1)
+int win(int x, int y,char(&cb1)[N][N])
 {    int i, j, k;
 	const int step[4][2]={{1,0},{0,1},{1,1},{1,-1}};   
 	for(i=0;i<4;++i)
@@ -69,7 +84,7 @@ int win(int x, int y,char*cb1)
 
 			if( row>=1 && row<=N &&              
 				col>=1 && col<=N &&            
-				*(cb1+x)+y == *(cb1+row)+col )                 
+				cb1[x][y]==cb1[row][col])          
 				count+=1;             
 			else                   
 				break; 
@@ -79,3 +94,5 @@ int win(int x, int y,char*cb1)
 	}
 return 0;
 }
+
+
