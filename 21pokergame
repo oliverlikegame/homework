@@ -1,0 +1,128 @@
+#include<iostream>
+#include<string.h>
+#include<time.h>
+using namespace std;
+static int countP=2,countC=2;	 //玩家手牌数 ,电脑手牌数			  
+void initialize(int(&hand)[10],int(&poker)[4][13])            //玩家与电脑获得两张手牌
+{
+	int i,j,k=0;
+	while(1)
+	{
+		i=rand()%4;
+		j=rand()%13;
+		if(poker[i][j]!=0)
+		{
+			hand[k]=poker[i][j];
+			poker[i][j]=0;//取过的牌就没有了不能在被取用可以把取过的牌的值名为0
+			k++;
+		}
+		if(k==2)
+			break;
+	}
+
+
+}
+int Player(int(&poker)[4][13],int(&hand)[10])//玩家要牌选择
+{ 
+	
+	char p;
+
+	cout<<"是否继续要牌 y/n"<<endl<<endl;
+		cin>>p;
+		int i,j;
+		if(p=='y')
+		{ 
+			do						//防止取到重复的牌保证一张牌只能被取用一次
+			{    
+				i=rand()%4;
+				j=rand()%13;
+			}
+			while(poker[i][j]==0);
+			hand[countP]=poker[i][j];//将扑克从卡组抽到手牌中
+			poker[i][j]=0;
+			countP++;
+			cout<<"您的手牌为: ";
+			for(int i1=0;i1<countP;i1++)
+				cout<<hand[i1]<<" ";
+			return 1;
+		}
+		else
+		{
+			cout<<"您的手牌为: ";
+			for(int i=0;i<countP;i++)
+				cout<<hand[i]<<" ";
+			return 0;
+		}
+}
+int Dlayer(int(&poker)[4][13],int(&hand)[10])//计算机要牌选择
+{ 
+	
+	int sum=0,i1,i,j;
+	for(i1=0;i1<countC;i1++)
+		sum+=hand[i1];
+		if(sum<18)					 //总点数小于18可以继续要牌   
+		{  
+			do						 //防止取到重复的牌保证一张牌只能被取用一次
+			{
+				i=rand()%4;
+				j=rand()%13;
+			}
+			while(poker[i][j]==0);
+			hand[countC]=poker[i][j];//将扑克从卡组抽到手牌中
+			countC++;				 //手牌数
+			cout<<"电脑的手牌为: ";
+			for(int i2=0;i2<countC;i2++)
+				cout<<hand[i2]<<" ";
+			poker[i][j]=0;
+			return 1;
+		}
+		else
+		{
+			cout<<"电脑的手牌为: ";
+			for(int i2=0;i2<countC;i2++)
+				cout<<hand[i2]<<" ";
+			return 0;
+		}
+}
+void win(int(&hand1)[10],int(&hand2)[10]) //胜负判断
+{
+	int sum1=0,sum2=0;
+	for(int i1=0;i1<countP;i1++)
+		 sum1+=hand1[i1];
+	for(int i2=0;i2<countC;i2++)
+		sum2+=hand2[i2];
+	if(sum1==sum2)
+		cout<<"相等，游戏结束"<<endl;
+	if(sum1>21)
+		cout<<"游戏结束"<<endl;
+	if(sum2>21)
+		cout<<"游戏结束"<<endl;
+	cout<<sum1<<" :  "<<sum2<<endl;
+    if(sum1>sum2&&sum1<22&&sum2<22)
+	cout<<"游戏结束 恭喜获胜"<<endl;
+	if(sum1<sum2&&sum1<22&&sum2<22)
+	cout<<"游戏结束 你失败了"<<endl;
+
+
+
+}
+
+int main()
+{   
+	srand(time(0));		//构建扑克扑克牌A到K四种花色各13张
+	int poker[4][13]={{1,2,3,4,5,6,7,8,9,10,10,10,10},{1,2,3,4,5,6,7,8,9,10,10,10,10},{1,2,3,4,5,6,7,8,9,10,10,10,10},{1,2,3,4,5,6,7,8,9,10,10,10,10}};
+	int handP[10],handC[10];
+	
+	initialize(handP,poker);		//初始化玩家手牌
+	initialize(handC,poker);		//初始化电脑手牌
+	cout<<"您的手牌为  :"<<handP[0]<<" "<<handP[1]<<"       电脑的手牌为:"<<handC[0]<<" "<<handC[1]<<endl;
+	int k=2,a,b;//第k+1张手牌
+	do
+	{
+		a=Player(poker,handP);		//人要不要牌
+		b=Dlayer(poker,handC);		//计算机要不要
+		k++;
+	}while(a==1||b==1);				//双方均不要牌后循环结束
+	win(handP,handC);				//判断输赢
+
+}
