@@ -1,0 +1,88 @@
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+struct stu{ 
+int stu_id; //学号 
+char name[20]; //姓名 
+char sex; //性别 
+int age; //年龄 
+char nativeplace[20]; //籍贯 
+char CLASS[20]; //班级 
+int score; //成绩 
+struct stu * next;
+};
+struct stu*creat()
+{
+	
+	struct stu*head;
+	struct stu*p1,*p2;
+	head=(struct stu *)malloc(sizeof(struct stu));
+	head->next=NULL;
+	p1=head;
+	p2=(struct stu *)malloc(sizeof(struct stu));
+	cout<<"输入姓名 性别 年龄 籍贯"<<endl;
+	cin>>p2->name>>p2->sex>>p2->age>>p2->nativeplace;
+	cout<<"学生学号  班级 成绩"<<endl;
+	cin>>p2->stu_id>>p2->CLASS>>p2->score;
+	getchar();
+	cout<<"是否继续添加? y/n"<<endl;
+	char t;
+	cin>>t;
+	if(t=='y')
+	while(1)
+	{
+		p2->next=p1->next;
+		p1->next=p2;
+		p1=p2;
+		p2=(struct stu *)malloc(sizeof(struct stu));
+		cout<<"输入姓名 性别 年龄 籍贯"<<endl;
+		cin>>p2->name>>p2->sex>>p2->age>>p2->nativeplace;
+		cout<<"学生学号  班级 成绩"<<endl;
+		cin>>p2->stu_id>>p2->CLASS>>p2->score;
+		cout<<"是否继续添加? y/n"<<endl;
+		cin>>t;
+		if(t=='n')
+			break;
+	}
+	free(p2);
+	return head;
+};
+void search()
+{
+
+
+
+}
+void average()
+{
+
+
+}
+void sort()
+{
+
+}
+void change()
+{
+}
+int main()
+{
+	int menu;
+	while(1)
+	{
+		cout<<"请选择要使用的功能"<<endl<<"1录入学生信息"<<endl<<"2查询学生信息"<<endl<<"3查询平均成绩"<<endl<<"4按成绩排序"<<endl<<"5学生信息更改"<<"0退出系统"<<endl;
+		cin>>menu;
+		if(menu==1)
+		creat();//录入学生信息，显示所有学生信息
+		if(menu==2)
+		search();//按学号、姓名查询并显示单个学生的信息，按性别、籍贯、班级进行类别查询并显示，查询方式可以自己补充
+		if(menu==3)
+		average();//按类统计每个班级或性别等的平均成
+		if(menu==4)
+		sort();//按成绩进行排序，并输出排序结果，能够查询某班成绩前10名的学生
+		if(menu==5)
+		change();//够添加、删除、修改学生的信息
+		if(menu==0)
+		break;
+	}
+}
