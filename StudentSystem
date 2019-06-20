@@ -1,6 +1,8 @@
 #include<iostream>
 #include<stdlib.h>
+#include<iomanip>
 using namespace std;
+
 struct stu{ 
 int stu_id; //学号 
 char name[20]; //姓名 
@@ -8,61 +10,213 @@ char sex[5]; //性别
 char age[5]; //年龄 
 char nativeplace[20]; //籍贯 
 char CLASS[20]; //班级 
-char score[30]; //成绩 
+int score; //成绩 
 struct stu * next;
 };
-struct stu*creat()                              //添加学生信息
+stu *head,*tail,*p;
+stu * creat()              //添加学生信息 并输出学生信息
 {
 	
-	struct stu*head;
-	struct stu*p1,*p2;                             //数据量小栈够用就不需要。数据量大就用堆空间。
-	head=(struct stu *)malloc(sizeof(struct stu));//结构体指针需要分配存储空间   不用malloc的变量声明在栈，是编译器分配的空间。malloc数据在堆区.
-
-	head->next=NULL;
-	p1=head;
-	p2=(struct stu *)malloc(sizeof(struct stu));
-	cout<<"输入姓名 性别 年龄 籍贯"<<endl;
-	cin>>p2->name>>p2->sex>>p2->age>>p2->nativeplace;
-	cout<<"学生学号  班级 成绩"<<endl;
-	cin>>p2->stu_id>>p2->CLASS>>p2->score;
-	getchar();
-	cout<<"是否继续添加? y/n"<<endl;
-	char t;
-	cin>>t;
-	if(t=='y')
-	while(1)
+	int n=0;               //链表节点的个数n
+	char data='y';         //判段是否录入
+	head=NULL;
+	while(data!='n') 
 	{
-		p2->next=p1->next;
-		p1->next=p2;
-		p1=p2;
-		p2=(struct stu *)malloc(sizeof(struct stu));
-		cout<<"输入姓名 性别 年龄 籍贯"<<endl;
-		cin>>p2->name>>p2->sex>>p2->age>>p2->nativeplace;
-		cout<<"学生学号  班级 成绩"<<endl;
-		cin>>p2->stu_id>>p2->CLASS>>p2->score;
-		cout<<"是否继续添加? y/n"<<endl;
-		
-		cin>>t;
-		if(t=='n')
-			break;
+		n++;
+		if(n==1)           //第一个链表节点
+		{
+			head=new stu;
+			tail=head;
+			cout<<" 输入 学号 姓名 性别 年龄 籍贯 班级 成绩"<<endl;
+			cin>>head->stu_id>>head->name>>head->sex>>head->age>>head->nativeplace>>head->CLASS>>head->score;
+		}
+		else
+		{
+			p=new stu;
+			cout<<" 输入 学号 姓名 性别 年龄 籍贯 班级 成绩"<<endl;
+			cin>>p->stu_id>>p->name>>p->sex>>p->age>>p->nativeplace>>p->CLASS>>p->score;
+			tail->next=p;  //使tail指向的节点在p的上一个节点
+			tail=p;        //使tail指向下一个节点  即保证tail指向最后一个节点
+		}
+		cout<<"是否继续录入 y/n"<<endl;
+		cin>>data;
 	}
-	free(p2);          //释放掉使用的内存地址
+
+	tail->next=NULL;	   //tail指向最后一个节点  最后一个节点的指针指向NULL
+	p=head;              
+	cout<<std::left<<setw(20)<<"学号"<<std::left<<setw(10)<<"姓名"<<std::left<<setw(5)<<"性别"<<std::left<<setw(5)<<"年龄"<<std::left<<setw(10)<<"籍贯"<<std::left<<setw(10)<<"班级"<<setw(10)<<"成绩"<<endl;
+	while(p!=NULL)		   //输出链表
+	{
+		cout<<std::left<<setw(20)<<p->stu_id<<std::left<<setw(10)<<p->name<<std::left<<setw(5)<<p->sex<<std::left<<setw(5)<<p->age<<std::left<<setw(10)<<p->nativeplace<<setw(10)<<p->CLASS<<setw(10)<<p->score<<endl;
+		p=p->next;	
+	}
 	return head;
 };
 void search()
 {
+	cout<<"输入查询方式"<<endl;
+	cout<<"1学号"<<endl;
+	cout<<"2姓名"<<endl;
+	cout<<"3性别,籍贯或班级"<<endl;
+	cout<<"0返回上一级"<<endl;
+	int n;
+	cin>>n;
+	if(n==0)
+		return;
+	while(1)
+	{
+		if(n=1)
+		{
+			int m;
+			cout<<"输入学生学号"<<endl;
+			cin>>m;
+			p=head;
+			while(p->next!=NULL)
+			{
+				cout<<std::left<<setw(20)<<"学号"<<std::left<<setw(10)<<"姓名"<<std::left<<setw(5)<<"性别"<<std::left<<setw(5)<<"年龄"<<std::left<<setw(10)<<"籍贯"<<std::left<<setw(10)<<"班级"<<setw(10)<<"成绩"<<endl;
+				if(p->stu_id==m)
+				{
+					cout<<std::left<<setw(20)<<p->stu_id<<std::left<<setw(10)<<p->name<<std::left<<setw(5)<<p->sex<<std::left<<setw(5)<<p->age<<std::left<<setw(10)<<p->nativeplace<<setw(10)<<p->CLASS<<setw(10)<<p->score<<endl;
+				    break;
+				}
+			}
+			if(p->next==NULL)
+				cout<<"查无此人 请重试";
+		break;
+		}
+		
 
+		if(n=2)
+		{   char m[10];
+			cout<<"输入学生姓名"<<endl; //考虑到名字可能与籍贯相同  故把名字单独拿出来
+			cin>>m;
+			p=head;
+			while(p->next!=NULL)
+			{
+				cout<<std::left<<setw(20)<<"学号"<<std::left<<setw(10)<<"姓名"<<std::left<<setw(5)<<"性别"<<std::left<<setw(5)<<"年龄"<<std::left<<setw(10)<<"籍贯"<<std::left<<setw(10)<<"班级"<<setw(10)<<"成绩"<<endl;
+				if(strcmp(p->name,m)==0)
+				{
+					cout<<std::left<<setw(20)<<p->stu_id<<std::left<<setw(10)<<p->name<<std::left<<setw(5)<<p->sex<<std::left<<setw(5)<<p->age<<std::left<<setw(10)<<p->nativeplace<<setw(10)<<p->CLASS<<setw(10)<<p->score<<endl;
+				    break;
+				}
+			}
+			if(p->next==NULL)
+				cout<<"查无此人 请重试";
+		break;
+		}
+	if(n=3)
+		{   char m[10];
+			cout<<"输入学生性别班级或籍贯"<<endl;
+			cin>>m;
+			p=head;
+			while(p->next!=NULL)
+			{
+				cout<<std::left<<setw(20)<<"学号"<<std::left<<setw(10)<<"姓名"<<std::left<<setw(5)<<"性别"<<std::left<<setw(5)<<"年龄"<<std::left<<setw(10)<<"籍贯"<<std::left<<setw(10)<<"班级"<<setw(10)<<"成绩"<<endl;
+				if(strcmp(p->sex,m)==0)
+				{
+					cout<<std::left<<setw(20)<<p->stu_id<<std::left<<setw(10)<<p->name<<std::left<<setw(5)<<p->sex<<std::left<<setw(5)<<p->age<<std::left<<setw(10)<<p->nativeplace<<setw(10)<<p->CLASS<<setw(10)<<p->score<<endl;
+				}
+				if(strcmp(p->nativeplace,m)==0)
+				{
+					cout<<std::left<<setw(20)<<p->stu_id<<std::left<<setw(10)<<p->name<<std::left<<setw(5)<<p->sex<<std::left<<setw(5)<<p->age<<std::left<<setw(10)<<p->nativeplace<<setw(10)<<p->CLASS<<setw(10)<<p->score<<endl;
+				}
+				if(strcmp(p->CLASS,m)==0)
+				{
+					cout<<std::left<<setw(20)<<p->stu_id<<std::left<<setw(10)<<p->name<<std::left<<setw(5)<<p->sex<<std::left<<setw(5)<<p->age<<std::left<<setw(10)<<p->nativeplace<<setw(10)<<p->CLASS<<setw(10)<<p->score<<endl;
+				}
 
-
+			}
+		break;
+		}
+	}
 }
-void average()
+void average()//按类别查询平均成绩
 {
-
+	cout<<"输入查询方式"<<endl;
+	cout<<"输入0返回上一级";
+	int n;
+	cin>>n;
+	if(n==0)
+		return;
+	while(1)
+	{
+		char m[10];  //用一个char数组即可代替性别籍贯和班级
+		int sum=0,people=0;
+		cout<<"输入性别,籍贯或班级"<<endl;
+		cin>>m;
+		p=head;
+		while(p->next!=NULL)
+		{
+			if(strcmp(p->sex,m))
+				 sum+=(p->score);people++;
+			if(strcmp(p->nativeplace,m))
+				 sum+=p->score;people++;
+			if(strcmp(p->CLASS,m))
+				 sum+=p->score;people++;
+		}
+		cout<<(double)sum/people<<endl;
+		break;
+	}
 
 }
 void sort()
 {
-
+	 int i=1;
+	 p=head;
+	 while(p->next!=NULL)//找出链表的节点数
+	 {
+		 i++;
+		 p=p->next;
+	 }
+	 int j,k;
+	 for(j=0;j<i-1;j++)       //冒泡排序
+		 for(k=0;k<i-j-1;k++)
+		 {
+			 stu *p1,*p2;    //节点按顺序p2 p p1 
+			 p1=p->next;
+			 
+			 if(p==head)   //没有p2 刚开始的两个节点
+			 {
+				 if(p->score<p1->score)//满足条件交换
+				 {
+					 p->next=p1->next;//注意顺序 防止将后续节点丢失 将p连在p1的下一个节点上 p和p1连在同一个节点
+					 p1->next=p;	 //把p1连在p上
+					 head=p1;		//head连在p1上
+					 p=p->next;    //p后移
+				     p1=p1->next; //p1后移
+				 } 
+			 }
+			 if(p!=head&&(p1->next)!=NULL)// p 不在头 p1不在尾
+			 {
+				 p2->next=p;              //使p2是p1前面的节点
+				if(p->score<p1->score)
+				 {
+					
+					 p->next=p1->next;//使p接在p1后的节点上面 p和p1接在同一个节点上
+					 p1->next=p;      //把p1接在p上
+					 p2->next=p1;     //把p2接在p1上 p2原来接在p上
+					 p1=p1->next;     //p1后移
+					 p=p->next;       //p后移
+				}
+			 }
+			 if(p1->next==NULL)       //p1是尾
+			 {
+				 p2->next=p;         //使p2是p前面的节点
+				 if(p->score<p1->score)
+				 {
+					 p1->next=p;    //p1接在p上
+					 p->next=NULL;  //p2换成最后一个节点
+					 p2->next=p1;   //p2接在p1上
+				 }
+			 }
+		 }
+		 cout<<std::left<<setw(20)<<"学号"<<std::left<<setw(10)<<"姓名"<<std::left<<setw(5)<<"性别"<<std::left<<setw(5)<<"年龄"<<std::left<<setw(10)<<"籍贯"<<std::left<<setw(10)<<"班级"<<setw(10)<<"成绩"<<endl;
+		 for(i=0;i<10;i++)
+		 {
+			p=head;
+			cout<<std::left<<setw(20)<<p->stu_id<<std::left<<setw(10)<<p->name<<std::left<<setw(5)<<p->sex<<std::left<<setw(5)<<p->age<<std::left<<setw(10)<<p->nativeplace<<setw(10)<<p->CLASS<<setw(10)<<p->score<<endl;
+			p=p->next;
+		 }
 }
 void change()
 {
@@ -72,7 +226,7 @@ int main()
 	int menu;
 	while(1)
 	{
-		cout<<"请选择要使用的功能"<<endl<<"1录入学生信息"<<endl<<"2查询学生信息"<<endl<<"3查询平均成绩"<<endl<<"4按成绩排序"<<endl<<"5学生信息更改"<<"0退出系统"<<endl;
+		cout<<"请选择要使用的功能"<<endl<<"1录入学生信息"<<endl<<"2查询学生信息"<<endl<<"3查询平均成绩"<<endl<<"4按成绩排序"<<endl<<"5学生信息更改"<<endl<<"0退出系统"<<endl;
 		cin>>menu;
 		if(menu==1)
 		creat();//录入学生信息，显示所有学生信息
