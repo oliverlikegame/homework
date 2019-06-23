@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stdlib.h>
 #include<iomanip>
+#include<stdio.h>
 using namespace std;
 
 struct stu{ 
@@ -35,7 +36,7 @@ stu * creat()              //添加学生信息 并输出学生信息
 			p=new stu;
 			cout<<" 输入 学号 姓名 性别 年龄 籍贯 班级 成绩"<<endl;
 			cin>>p->stu_id>>p->name>>p->sex>>p->age>>p->nativeplace>>p->CLASS>>p->score;
-			tail->next=p;  //使tail指向的节点在p的上一个节点
+			tail->next=p;  //将节点p与tail节点连接
 			tail=p;        //使tail指向下一个节点  即保证tail指向最后一个节点
 		}
 		cout<<"是否继续录入 y/n"<<endl;
@@ -161,72 +162,232 @@ void average()//按类别查询平均成绩
 }
 void sort()
 {
-	 int i=1;
-	 p=head;
-	 while(p->next!=NULL)//找出链表的节点数
-	 {
-		 i++;
-		 p=p->next;
-	 }
-	 int j,k;
-	 for(j=0;j<i-1;j++)       //冒泡排序
-		 for(k=0;k<i-j-1;k++)
-		 {
-			 stu *p1,*p2;    //节点按顺序p2 p p1 
-			 p1=p->next;
-			 
-			 if(p==head)   //没有p2 刚开始的两个节点
-			 {
-				 if(p->score<p1->score)//满足条件交换
-				 {
-					 p->next=p1->next;//注意顺序 防止将后续节点丢失 将p连在p1的下一个节点上 p和p1连在同一个节点
-					 p1->next=p;	 //把p1连在p上
-					 head=p1;		//head连在p1上
-					 p=p->next;    //p后移
-				     p1=p1->next; //p1后移
-				 } 
-			 }
-			 if(p!=head&&(p1->next)!=NULL)// p 不在头 p1不在尾
-			 {
-				 p2->next=p;              //使p2是p1前面的节点
-				if(p->score<p1->score)
-				 {
-					
-					 p->next=p1->next;//使p接在p1后的节点上面 p和p1接在同一个节点上
-					 p1->next=p;      //把p1接在p上
-					 p2->next=p1;     //把p2接在p1上 p2原来接在p上
-					 p1=p1->next;     //p1后移
-					 p=p->next;       //p后移
-				}
-			 }
-			 if(p1->next==NULL)       //p1是尾
-			 {
-				 p2->next=p;         //使p2是p前面的节点
-				 if(p->score<p1->score)
-				 {
-					 p1->next=p;    //p1接在p上
-					 p->next=NULL;  //p2换成最后一个节点
-					 p2->next=p1;   //p2接在p1上
-				 }
-			 }
-		 }
+	 int i;
+	 stu *p1,*p2,*t,*temp;
+	t=NULL;
+	p1=head;
+	
+	while((head->next->next)!=t)//冒泡排序
+	{
+		p2=head->next;
+		p1=head;
+		while(p2->next!=t)   
+		{
+			if((p2->score)<(p2->next->score))
+			{
+                p1->next=p2->next;
+                temp=p2->next->next;
+                p2->next->next=p2;
+                p2->next=temp;
+                p2=p1->next;  //p回退一个节点 
+                
+			}
+			p2=p2->next;  //p2跳到下一节点 
+			p1=p1->next;  //p1跳到下一节点
+		}
+		t=p2;
+	}
 		 cout<<std::left<<setw(20)<<"学号"<<std::left<<setw(10)<<"姓名"<<std::left<<setw(5)<<"性别"<<std::left<<setw(5)<<"年龄"<<std::left<<setw(10)<<"籍贯"<<std::left<<setw(10)<<"班级"<<setw(10)<<"成绩"<<endl;
-		 for(i=0;i<10;i++)
+		 p=head->next;
+		 for(i=0;i<10;i++)  //输出前十个学生的信息
 		 {
-			p=head;
 			cout<<std::left<<setw(20)<<p->stu_id<<std::left<<setw(10)<<p->name<<std::left<<setw(5)<<p->sex<<std::left<<setw(5)<<p->age<<std::left<<setw(10)<<p->nativeplace<<setw(10)<<p->CLASS<<setw(10)<<p->score<<endl;
 			p=p->next;
+			if(p==NULL)     //不满十个就有几个输出几个
+				break;
 		 }
+		 return;
 }
 void change()
 {
+	while(1)
+	{
+		cout<<"选择要使用的功能"<<endl;
+		cout<<"1添加学生"<<endl;
+		cout<<"2修改学生信息"<<endl;
+		cout<<"3删除学生信息"<<endl;
+		cout<<"0返回上一级"<<endl;
+		int n;
+		cin>>n;
+		if(n==0)
+			return ;
+		while(1)
+		{
+			if(n==1)
+			{
+				stu *p1;
+				p1=new stu;
+				cout<<" 输入 学号 姓名 性别 年龄 籍贯 班级 成绩"<<endl;
+				cin>>p1->stu_id>>p1->name>>p1->sex>>p1->age>>p1->nativeplace>>p1->CLASS>>p1->score;
+				tail->next=p1;   //将p节点连在tail节点上
+				tail=p1;        //使tail指向下一个节点  即保证tail指向最后一个节点
+				break;
+			}
+			if(n==2)
+			{
+				while(1)
+				{
+					cout<<"请输入学生学号  0返回上一级"<<endl;
+					int n1;
+					stu *p1;
+					p1=head;
+					cin>>n1;
+					if(n1==0)
+						break;
+					while(n1!=p1->stu_id)
+					{
+						p1=p1->next;
+					}
+					while(1)
+					{
+						cout<<"请选择需要修改的内容"<<endl;
+						cout<<"1性别"<<endl;
+						cout<<"2年龄"<<endl;
+						cout<<"3籍贯"<<endl;
+						cout<<"4班级"<<endl;
+						cout<<"5成绩"<<endl;
+						cout<<"0返回上一级"<<endl;
+						int m;
+						cin>>m;
+						if(m==0)
+							break;
+						if(m==1)
+							cin>>p1->sex;
+						if(m==2)
+							cin>>p1->age;
+						if(m==3)
+							cin>>p1->nativeplace;;
+						if(m==4)
+							cin>>p1->CLASS;
+						if(m==5)
+							cin>>p1->score;
+						}
+					}
+				}
+				if(n==3)
+				{
+					cout<<"请输入需要删除的学生的学号"<<endl;
+					int k;
+					cin>>k;
+					stu *p2,*p3;
+					while(k!=p2->stu_id)//找到需要删除的节点的位置
+					{
+						p2=p2->next;
+					}
+					if(p2==head)        //如果需要删除第一个节点
+						head=p2->next;
+					else
+					{
+						while(p3->next!=p2)//找到需要删除的节点的前一节点
+						{
+							p3=p3->next;
+						}
+						p3->next=p2->next;
+					}
+				}
+		}
+	}
+}
+void alllist()
+{
+	stu *p1;
+	p1=head;              
+	cout<<std::left<<setw(20)<<"学号"<<std::left<<setw(10)<<"姓名"<<std::left<<setw(5)<<"性别"<<std::left<<setw(5)<<"年龄"<<std::left<<setw(10)<<"籍贯"<<std::left<<setw(10)<<"班级"<<setw(10)<<"成绩"<<endl;
+	while(p1!=NULL)		   //输出链表
+	{
+		cout<<std::left<<setw(20)<<p1->stu_id<<std::left<<setw(10)<<p1->name<<std::left<<setw(5)<<p1->sex<<std::left<<setw(5)<<p1->age<<std::left<<setw(10)<<p1->nativeplace<<setw(10)<<p1->CLASS<<setw(10)<<p1->score<<endl;
+		p1=p1->next;	
+	}
+
+	return;
+
+}
+void writefile()
+{
+	FILE *fp;
+	if((fp=fopen("d:\\student.txt","a"))==NULL)
+	{
+		cout<<"Cannot open something went wrong";
+		exit(0);
+	}
+	
+	struct stu *p1;
+		for(p1=head;p1!=NULL;p1=p1->next)
+			fprintf(fp,"%d,%s,%s,%s,%s,%s,%d\n",p1->stu_id,p1->name,p1->sex,p1->age,p1->nativeplace,p1->CLASS,p1->score);
+		fclose(fp);
+}
+stu *readfile()
+{ 
+	
+	int stu_id; //学号 
+	char name[20]; //姓名 
+	char sex[5]; //性别 
+	char age[5]; //年龄 
+	char nativeplace[20]; //籍贯 
+	char CLASS[20]; //班级 
+	int score; //成绩
+	stu *tmp=head;
+	
+    int i;
+	char c;
+    FILE *fp;
+    int lines=0;
+    fp=fopen("d:\\student.txt", "r");
+    if(fp)
+    {
+        while((c=fgetc(fp)) != EOF)
+            if(c=='\n') lines++;
+        fclose(fp);
+    }
+	for(i=1;i<=lines;i++)
+	{
+		if(i==1)           //第一个链表节点
+		{
+			head=new stu;
+			fscanf(fp,"%d,%s,%s,%s,%s,%s,%d",&stu_id,name,sex,age,nativeplace,CLASS,&score);
+			tmp=tail=head;
+			tmp->stu_id=stu_id;
+			strcpy(tmp->name,name);
+			strcpy(tmp->sex,sex);
+			strcpy(tmp->age,age);
+			strcpy(tmp->nativeplace,nativeplace);
+			strcpy(tmp->CLASS,CLASS);
+			tmp->score=score;
+			
+		}
+		else
+		{
+			fscanf(fp,"%d,%s,%s,%s,%s,%s,%d",&stu_id,name,sex,age,nativeplace,CLASS,&score);                                                  //数据从文件放在链表里面
+			tmp=new stu;
+			tmp->stu_id=stu_id;
+			strcpy(tmp->name,name);
+			strcpy(tmp->sex,sex);
+			strcpy(tmp->age,age);
+			strcpy(tmp->nativeplace,nativeplace);
+			strcpy(tmp->CLASS,CLASS);
+			tmp->score=score;
+		}
+			tail->next=tmp;
+			tail=tmp;
+	}
+	tail->next=NULL;
+	fclose(fp);
+	return head;
 }
 int main()
 {
 	int menu;
 	while(1)
 	{
-		cout<<"请选择要使用的功能"<<endl<<"1录入学生信息"<<endl<<"2查询学生信息"<<endl<<"3查询平均成绩"<<endl<<"4按成绩排序"<<endl<<"5学生信息更改"<<endl<<"0退出系统"<<endl;
+		cout<<"请选择要使用的功能"<<endl;
+		cout<<"1录入学生信息"<<endl;
+		cout<<"2查询学生信息"<<endl;
+		cout<<"3查询平均成绩"<<endl;
+		cout<<"4按成绩排序"<<endl;
+		cout<<"5学生信息更改"<<endl;
+		cout<<"6显示学生列表"<<endl;
+		cout<<"7读取上一次保存"<<endl;
+		cout<<"0保存并退出系统"<<endl;
 		cin>>menu;
 		if(menu==1)
 		creat();//录入学生信息，显示所有学生信息
@@ -238,7 +399,12 @@ int main()
 		sort();//按成绩进行排序，并输出排序结果，能够查询某班成绩前10名的学生
 		if(menu==5)
 		change();//够添加、删除、修改学生的信息
+		if(menu==6)
+		alllist();//显示所有学生的信息
+		if(menu==7)
+		readfile();
 		if(menu==0)
 		break;
+		writefile();
 	}
 }
