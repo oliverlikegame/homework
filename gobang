@@ -1,9 +1,9 @@
-#include<iostream>   
+#include<iostream>   //简易五子棋 人人对战
 using namespace std;
 #include<iomanip>
-#define N 15									      //自定义棋盘大小
-int win(int x, int y,char(&cb1)[N][N]);			     //判断五子是否一线
-void play(char(&cb)[N][N],int,int,int);			    //进行下棋操作
+#define N 15						//自定义棋盘大小
+int win(int x, int y,char(&cb1)[N][N]);			//判断五子是否一线
+void play(char(&cb)[N][N],int,int,int);			//进行下棋操作
 void panduan(int *p,int*l,char(&chessboard)[N][N]);//判断棋子是否可以下在选定位置  简易五子棋
 int main()
 {
@@ -17,10 +17,10 @@ int main()
 		cout<<"WHITE please input coordinate(x,y)"<<"记住 x<="<<N<<" 还有 y<="<<N<<" 否则你可以试试^v~"<<endl;
 		player=1;
 		cin>>x>>y;
-		panduan(&x,&y,chessboard);                                              //判断棋盘能不能下
-		play(chessboard,player,x,y);                                            //能下就下
+		panduan(&x,&y,chessboard);               //判断棋盘能不能下
+		play(chessboard,player,x,y);             //能下就下
 		if(win(x-1,y-1,chessboard)==1)
-			cout<<"                    Gmae Over!!!!!!"<<endl<<"white win!!!!!";//白方结束提示
+			cout<<"                    Gmae Over!!!!!!"<<endl<<"white win!!!!!";   //白方结束提示
 		else
 			{
 				cout<<"BLACK please input coordinate(x,y)"<<"记住 x<="<<N<<" 还有 y<="<<N<<"否则 嗯"<<endl;
@@ -35,7 +35,7 @@ int main()
 	while(win(x-1,y-1,chessboard)==0);
 
 }
-void panduan(int *p,int*l,char(&chessboard)[N][N])//判断是否有棋子合理与否
+void panduan(int *p,int*l,char(&chessboard)[N][N])	//判断是否有棋子合理与否
 {
 	while(1)
 		{
@@ -70,15 +70,15 @@ void play(char(&cb)[N][N],int player,int x,int y) //下棋
 
 int win(int x, int y,char(&cb1)[N][N])
 {    int i, j, k;
-	const int step[4][2]={{1,0},{0,1},{1,1},{1,-1}};   //四个方向
+	const int step[4][2]={{1,0},{0,1},{1,1},{1,-1}};  //四个方向
 	for(i=0;i<4;++i)
 	{   
 		const int d[2]={-1,1};      
 	int count=1;    
 	for(j=0;j<2;++j)                                  //落子点的两个相对方向  
-		for( k=1;k<=4;++k)                           //落子点两个相对方向上的四个棋子
+		for( k=1;k<=4;++k)                        //落子点两个相对方向上的四个棋子
 		{           
-			int row=x+k*d[j]*step[i][0];             //d[i]控制落子点正反方向  setep[][]不同的值实现x变y不变，x不变y不变，x变y变，x不变y变从而实现4个方向从落子点讲八个方向依次计数 
+			int row=x+k*d[j]*step[i][0];      //d[i]控制落子点正反方向  setep[][]不同的值实现x变y不变，x不变y不变，x变y变，x不变y变从而实现4个方向从落子点讲八个方向依次计数 
 
 			int col=y+k*d[j]*step[i][1];            
 
@@ -87,7 +87,7 @@ int win(int x, int y,char(&cb1)[N][N])
 				cb1[x][y]==cb1[row][col])          
 				count+=1;             
 			else                  
-				break;							   //只要遇到与自己不同的跳出循环停止计数也就是只计从落子点开始一条方向正方向计到无子或异子反方向计到异子或无子
+				break;          	 //只要遇到与自己不同的跳出循环停止计数也就是只计从落子点开始一条方向正方向计到无子或异子反方向计到异子或无子
 		}   
 		if(count>=5)      
 			return 1;
@@ -95,7 +95,4 @@ int win(int x, int y,char(&cb1)[N][N])
 return 0;
 }
 
-总结 该题运用函数及指针是我更加掌握了通过指针在函数中对相关数组进行相关数据操作的方法，增强对数组的理解，
-	 使我熟练运用并掌握了顺序选择循环结构并使我不断简化步骤，令我掌握尽量简单易读的原则，让我不断接近由上及下的设计理念，
-	  增强了我对编程的兴趣。
-	
+
