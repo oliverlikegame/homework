@@ -2,11 +2,11 @@
 #include<string.h>
 #define M 10//第一数组长度  
 #define N 10//第二数组长度
-void connect(char*p,char*l,int i)//i为数组长度(strlen),将数组地址传递从而对数组进行数据操作
+void connect(char*p,char*l,int i)	//i为数组长度(strlen),将数组地址传递从而对数组进行数据操作
 {
 	while(*l!='\0')
 	{
-		*(p+i)=*l++;//通过指针将第二数组赋值于第一数组未使用部分
+		*(p+i)=*l++;		//通过指针将第二数组赋值于第一数组未使用部分
 		i++;
 	}
 	*(p+i)='\0';//手动加入'\0'使字符结束
