@@ -1,4 +1,4 @@
-#include<iostream>      
+#include<iostream>      //学生信息管理系统简易版  录入 查找 修改 添加 删除等功能
 #include<stdlib.h>      
 #include<iomanip>      
 #include<stdio.h>      
@@ -236,10 +236,10 @@ void change()
     while(1)      
     {      
         cout<<"选择要使用的功能"<<endl;      
-        cout<<"1添加学生"<<endl;      
-        cout<<"2修改学生信息"<<endl;      
-        cout<<"3删除学生信息"<<endl;      
-        cout<<"0返回上一级"<<endl<<endl;      
+        cout<<"        1添加学生"<<endl;      
+        cout<<"        2修改学生信息"<<endl;      
+        cout<<"        3删除学生信息"<<endl;      
+        cout<<"        0返回上一级"<<endl<<endl;      
         cout<<"^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^^w^"<<endl;      
         int n;      
         cin>>n;      
@@ -405,7 +405,7 @@ stu *readfile()
     int i;      
     char c;      
     FILE *fp;    //文件指针  
-    int lines=0; //lines行数  
+    int lines=1; //lines行数  
     fp=fopen("d:\\student.txt", "r");//打开d盘根目录下的student.txt文件      
     if(fp)      
     {      
@@ -419,25 +419,25 @@ stu *readfile()
         cout<<"can not be open"<<endl;      
         exit(0);      
     }      
-    for(i=1;i<=lines;i++)     //循环读取文件中的内容 并需要将其数据添加到链表中  
+    for(i=1;i<=lines;i++)             //循环读取文件中的内容 并需要将其数据添加到链表中  
     {      
-        if(i==1)              //第一个链表节点      
+        if(i==1)                      //第一个链表节点      
         {      
             head=new stu;  
             tmp=tail=head;   
-            fscanf(fp,"%d%s%s%s%s%s%d",&tmp->stu_id,tmp->name,tmp->sex,tmp->age,tmp->nativeplace,tmp->CLASS,&tmp->score);//从文件中获取数据放在刚创建的头节点中的相应位置               
+            fscanf(fp,"%d%s%s%s%s%s%d",&tmp->stu_id,tmp->name,tmp->sex,tmp->age,tmp->nativeplace,tmp->CLASS,&tmp->score);//从文件中获取数据放在准备好的容器中               
         }      
-        else				  //已经创建过头节点
+        else      
         {      
-            tmp=new stu;	  //创建新节点  
-            fscanf(fp,"%d%s%s%s%s%s%d",&tmp->stu_id,tmp->name,tmp->sex,tmp->age,tmp->nativeplace,tmp->CLASS,&tmp->score);//从文件中获取数据放在新节点中的相应位置             
+            tmp=new stu;  
+            fscanf(fp,"%d%s%s%s%s%s%d",&tmp->stu_id,tmp->name,tmp->sex,tmp->age,tmp->nativeplace,tmp->CLASS,&tmp->score);//从文件中获取数据放在准备好的容器中               
         }      
-            tail->next=tmp;   //新创建的节点连接在tail节点上   
-            tail=tmp;         //tail指针后移
+            tail->next=tmp;      
+            tail=tmp;      
     }      
-    tail->next=NULL;          //封尾
-    fclose(fp);               //关闭文件
-    return head;              //返回头指针
+    tail->next=NULL;      
+    fclose(fp);      
+    return head;      
 }      
 int main()      
 {      
@@ -483,16 +483,16 @@ int main()
 }      
 /*   
 参考数据   
-1001 梨落 女 17 灵山 1 680   
-1002 曦晨 男 18 紫阳 23 710   
-1003 Neo male 19 walden 7 675   
-1004 南莲 女 20 西湖 128 702   
-1005 白子陌 男 19 白龙 16 740   
-1006 Dylan male 19 Evanston 96 681   
-1007 Delilah female 17 DOGPATCH 57 645   
-1008 伊轻尘 女 20 四川 55 602   
-1009 阿衰 男 19 怕踢 1 444   
-1010 辰逸 男 18 千阳 3 699   
+1001 白子陌 男 19 白龙 16 740
+1002 曦晨 男 18 紫阳 23 710 
+1003 Neo male 19 walden 7 675 
+1004 南莲 女 20 西湖 128 702 
+1005 梨落 女 17 灵山 1 680 
+1006 Dylan male 19 Evanston 96 681 
+1007 Delilah f 17 DOGPATCH 57 645 
+1008 伊轻尘 女 20 四川 55 602 
+1009 阿衰 男 19 怕踢 1 444 
+1010 辰逸 男 18 千阳 3 699 
 1011 擎宇 男 19 百花村 89 705   
 */    
 
