@@ -24,9 +24,7 @@ void initialize(int(&hand)[10],int(&poker)[4][13])       //玩家与电脑获得
 }
 int Player(int(&poker)[4][13],int(&hand)[10])		//玩家要牌选择
 { 
-	
 	char p;
-
 	cout<<"是否继续要牌 y/n"<<endl<<endl;
 		cin>>p;
 		int i,j;
@@ -108,7 +106,9 @@ void win(int(&hand1)[10],int(&hand2)[10]) //胜负判断
 }
 
 int main()
-{   
+{   cout<<endl<<"        欢迎来到21点游戏 1.0    "<<endl<<endl;
+	cout<<"游戏开始 请稍等... "<<endl;
+	cout<<"正在开始初始化手牌..."<<endl;
 	srand(time(0));					//构建扑克扑克牌A到K四种花色各13张
 	int poker[4][13]={{1,2,3,4,5,6,7,8,9,10,10,10,10},{1,2,3,4,5,6,7,8,9,10,10,10,10},{1,2,3,4,5,6,7,8,9,10,10,10,10},{1,2,3,4,5,6,7,8,9,10,10,10,10}};
 	int handP[10],handC[10];
