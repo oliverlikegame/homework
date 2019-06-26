@@ -7,7 +7,11 @@ void play(char(&cb)[N][N],int,int,int);			//进行下棋操作
 void panduan(int *p,int*l,char(&chessboard)[N][N]);//判断棋子是否可以下在选定位置  简易五子棋
 int main()
 {
+	cout<<endl;
+	cout<<"        欢迎来到简易五子棋1.0"<<endl;
+	cout<<"             游戏开始!!     "<<endl<<endl;
 	char chessboard[N][N];
+	char a[N]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 	int player,x,y,j;                  
 	for(int i=0;i<N;i++)
 		for(int j=0;j<N;j++)
@@ -23,6 +27,7 @@ int main()
 			cout<<"                    Gmae Over!!!!!!"<<endl<<"white win!!!!!";   //白方结束提示
 		else
 			{
+
 				cout<<"BLACK please input coordinate(x,y)"<<"记住 x<="<<N<<" 还有 y<="<<N<<"否则 嗯"<<endl;
 				player=0;
 				panduan(&x,&y,chessboard);
@@ -60,12 +65,16 @@ void play(char(&cb)[N][N],int player,int x,int y) //下棋
 	else                       //黑方
 		cb[x-1][y-1]='@';
 	int j;
+	cout<<"___________________________________________________________________________"<<endl;
+	cout<<"^^^1^^^2^^^3^^^4^^^5^^^6^^^7^^^8^^^9^^^10^^11^^12^^13^^14^^15^^^^^^^^^^^^^^"<<endl;
+	cout<<"---------------------------------------------------------------------------"<<endl;
 	for(int i=0;i<N;i++)
 	{
 		for(j=0;j<N;j++)
 			cout<<setw(4)<<*(cb[i]+j);
-		cout<<endl;
+		cout<<endl<<endl;
 	}
+	cout<<"---------------------------------------------------------------------------"<<endl;
 }
 
 int win(int x, int y,char(&cb1)[N][N])
@@ -74,7 +83,7 @@ int win(int x, int y,char(&cb1)[N][N])
 	for(i=0;i<4;++i)
 	{   
 		const int d[2]={-1,1};      
-	int count=1;    
+	int count=1;  
 	for(j=0;j<2;++j)                                  //落子点的两个相对方向  
 		for( k=1;k<=4;++k)                        //落子点两个相对方向上的四个棋子
 		{           
@@ -88,7 +97,7 @@ int win(int x, int y,char(&cb1)[N][N])
 				count+=1;             
 			else                  
 				break;          	 //只要遇到与自己不同的跳出循环停止计数也就是只计从落子点开始一条方向正方向计到无子或异子反方向计到异子或无子
-		}   
+		} 
 		if(count>=5)      
 			return 1;
 	}
