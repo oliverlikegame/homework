@@ -1,7 +1,7 @@
 #include<iostream>//计算扣税后剩余工资
 #include<iomanip>
 using namespace std;
-double get(double a);//计算扣税后剩余工资的函数
+double get(double a);				//计算扣税后剩余工资的函数
 int main()
 {
 	int salary;
